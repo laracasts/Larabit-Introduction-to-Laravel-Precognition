@@ -4,9 +4,10 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+import { useForm } from 'laravel-precognition-vue-inertia';
 
-const form = useForm({
+const form = useForm('post', '/register', {
     name: '',
     email: '',
     password: '',
@@ -24,7 +25,7 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" autocomplete="off">
             <div>
                 <InputLabel for="name" value="Name" />
 
@@ -35,7 +36,7 @@ const submit = () => {
                     v-model="form.name"
                     required
                     autofocus
-                    autocomplete="name"
+                    @change="form.validate('name')"
                 />
 
                 <InputError class="mt-2" :message="form.errors.name" />
@@ -50,7 +51,8 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.email"
                     required
-                    autocomplete="username"
+                    @change="form.validate('email')"
+
                 />
 
                 <InputError class="mt-2" :message="form.errors.email" />
@@ -65,7 +67,8 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.password"
                     required
-                    autocomplete="new-password"
+                    @change="form.validate('password')"
+
                 />
 
                 <InputError class="mt-2" :message="form.errors.password" />
@@ -80,7 +83,8 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.password_confirmation"
                     required
-                    autocomplete="new-password"
+                    @change="form.validate('password_confirmation')"
+
                 />
 
                 <InputError class="mt-2" :message="form.errors.password_confirmation" />
